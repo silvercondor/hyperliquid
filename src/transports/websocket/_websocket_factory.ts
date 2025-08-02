@@ -62,7 +62,9 @@ async function createFallbackWebSocket(url: string | URL, protocols?: string | s
         // Dynamic import using string concatenation to avoid TypeScript errors during compilation
         // when 'ws' package is not installed
         const moduleName = "ws";
-        const wsModule = await import(moduleName);
+        // @ts-ignore
+        // eslint-disable-next-line import/no-unresolved
+        const wsModule = await import(/* webpackIgnore: true */ moduleName);
         const WS = wsModule.default || wsModule.WebSocket || wsModule;
         
         if (typeof WS !== "function") {
@@ -135,7 +137,9 @@ export async function preloadWsPackage(): Promise<void> {
         wsImportAttempted = true;
         try {
             const moduleName = "ws";
-            const wsModule = await import(moduleName);
+            // @ts-ignore
+            // eslint-disable-next-line import/no-unresolved
+            const wsModule = await import(/* webpackIgnore: true */ moduleName);
             const WS = wsModule.default || wsModule.WebSocket || wsModule;
             
             if (typeof WS === "function") {
